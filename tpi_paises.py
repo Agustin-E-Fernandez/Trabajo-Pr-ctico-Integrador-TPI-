@@ -281,25 +281,25 @@ def mostrar_estadisticas(paises):
     min_p = min(paises, key=lambda p: p["poblacion"])
     prom_p = sum(p["poblacion"] for p in paises) / len(paises)
 
-    print("  📊 Población:")
+    print("Población:")
     print(f"     Mayor: {max_p['nombre']} → {max_p['poblacion']:,}".replace(",", "."))
     print(f"     Menor: {min_p['nombre']} → {min_p['poblacion']:,}".replace(",", "."))
     print(f"     Promedio: {int(prom_p):,}".replace(",", "."))
 
     # Superficie
     prom_s = sum(p["superficie"] for p in paises) / len(paises)
-    print(f"\n  🗺️  Superficie promedio: {int(prom_s):,} km²".replace(",", "."))
+    print(f"\nSuperficie promedio: {int(prom_s):,} km²".replace(",", "."))
 
     # Por continente
     conteo = {}
     for p in paises:
         conteo[p["continente"]] = conteo.get(p["continente"], 0) + 1
 
-    print("\n  🌍 Países por continente:")
+    print("\nPaíses por continente:")
     for cont in sorted(conteo):
         print(f"     {cont}: {conteo[cont]}")
 
-    print(f"\n  Total de países: {len(paises)}")
+    print(f"\nTotal de países: {len(paises)}")
 
 
 # ====================== VISUALIZACIÓN ======================
