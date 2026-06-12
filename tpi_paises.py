@@ -250,12 +250,16 @@ def ordenar_paises(paises):
     print("    3) Superficie")
     criterio = input("  Opción: ").strip()
 
+    if criterio not in ("1", "2", "3") :
+        print("  [ERROR] Opción inválida.")
+        return
+
     print("\n  Dirección:")
     print("    1) Ascendente")
     print("    2) Descendente")
     direccion = input("  Opción: ").strip()
 
-    if criterio not in ("1", "2", "3") or direccion not in ("1", "2"):
+    if direccion not in ("1", "2") :
         print("  [ERROR] Opción inválida.")
         return
 
