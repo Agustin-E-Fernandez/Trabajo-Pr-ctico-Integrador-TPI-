@@ -215,7 +215,7 @@ def filtrar_paises(paises):
 
 def filtrar_por_continente(paises):
     continentes = obtener_continentes_unicos(paises)
-    
+
     if not continentes:
         return []
 
@@ -294,29 +294,54 @@ def mostrar_estadisticas(paises):
     if not paises:
         print("\n  [INFO] No hay datos para estadísticas.")
         return
+    while True:
+        print("\n  ── Estadísticas ──")
+        print("    1) Estadísticas de población")
+        print("    2) Estadísticas de superficie")
+        print("    3) Países por continente")
+        print("    4) Total de países")
+        print("    0) Volver")
 
-    print("\n  ── Estadísticas ──")
+        opcion = input("  Opción: ").strip()
 
-    # Población
+        if opcion == "1":
+            estadisticas_poblacion(paises)
+
+        elif opcion == "2":
+            estadisticas_superficie(paises)
+
+        elif opcion == "3":
+            estadisticas_continentes(paises)
+
+        elif opcion == "4":
+            print(f"\n  Total de países: {len(paises)}")
+
+        elif opcion == "0":
+            break
+
+        else:
+            print("  [ERROR] Opción inválida.")
+
+def estadisticas_poblacion(paises):
     max_p = max(paises, key=lambda p: p["poblacion"])
     min_p = min(paises, key=lambda p: p["poblacion"])
     prom_p = sum(p["poblacion"] for p in paises) / len(paises)
 
-    print("Población:")
+    print("\n Población:")
     print(f"     Mayor: {max_p['nombre']} → {max_p['poblacion']:,}".replace(",", "."))
     print(f"     Menor: {min_p['nombre']} → {min_p['poblacion']:,}".replace(",", "."))
     print(f"     Promedio: {int(prom_p):,}".replace(",", "."))
 
-    # Superficie
+def estadisticas_superficie(paises):
     prom_s = sum(p["superficie"] for p in paises) / len(paises)
-    print(f"\nSuperficie promedio: {int(prom_s):,} km²".replace(",", "."))
+    print(f" \n Superficie promedio: {int(prom_s):,} km²".replace(",", "."))
 
-    # Por continente
+def estadisticas_continentes(paises):
     conteo = {}
     for p in paises:
         conteo[p["continente"]] = conteo.get(p["continente"], 0) + 1
 
-    print("\nPaíses por continente:")
+    print("\n Países por continente:")
     for cont in sorted(conteo):
         print(f"     {cont}: {conteo[cont]}")
 
