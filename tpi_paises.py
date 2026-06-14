@@ -84,12 +84,16 @@ def pedir_entero(mensaje, campo):
 def agregar_pais(paises):
     print("\n  ── Agregar nuevo país ──")
     nombre = pedir_texto("  Nombre del país: ", "nombre")
-    poblacion = pedir_entero("  Población: ", "poblacion")
-    superficie = pedir_entero("  Superficie (km²): ", "superficie")
-    continente = pedir_texto("  Continente: ", "continente")
 
     if buscar_por_nombre_exacto(paises, nombre):
         print(f"\n  [ERROR] Ya existe un país llamado '{nombre}'.")
+        return
+
+    poblacion = pedir_entero("  Población: ", "poblacion")
+    superficie = pedir_entero("  Superficie (km²): ", "superficie")
+    continente = elegir_continente(paises)
+    if continente is None:
+        print("\n  [INFO] Operación cancelada.")
         return
 
     nuevo_pais = {
@@ -209,16 +213,10 @@ def filtrar_paises(paises):
 
 
 def filtrar_por_continente(paises):
-    continentes = obtener_continentes_unicos(paises)
-    if not continentes:
+    continente = elegir_continente(paises)
+    if continente is None:
         return []
-
-    print("\n  Continentes disponibles:")
-    for i, cont in enumerate(continentes, 1):
-        print(f"    {i}) {cont}")
-
-    continente = pedir_texto("  Continente: ", "continente").lower()
-    return [p for p in paises if p["continente"].lower() == continente]
+    return [p for p in paises if p["continente"] == continente]
 
 
 def filtrar_por_rango(paises, campo, nombre_campo):
@@ -235,6 +233,33 @@ def filtrar_por_rango(paises, campo, nombre_campo):
 
 def obtener_continentes_unicos(paises):
     return sorted({p["continente"] for p in paises})
+
+
+CONTINENTES_FIJOS = ["América", "Europa", "Asia", "África", "Oceanía", "Antártida"]
+
+
+def elegir_continente(paises):
+    en_csv = obtener_continentes_unicos(paises)
+    # Unión: primero los que ya están en el CSV, luego los fijos que falten
+    todos = list(en_csv)
+    for c in CONTINENTES_FIJOS:
+        if c not in todos:
+            todos.append(c)
+
+    print("\n  Continentes disponibles:")
+    for i, cont in enumerate(todos, 1):
+        print(f"    {i}) {cont}")
+    print("    0) Cancelar")
+
+    validas = {str(i) for i in range(len(todos) + 1)}
+    while True:
+        op = input("  Elegí una opción: ").strip()
+        if op not in validas:
+            print("  [ERROR] Opción inválida.")
+            continue
+        if op == "0":
+            return None
+        return todos[int(op) - 1]
 
 
 # ====================== ORDENAMIENTO ======================
