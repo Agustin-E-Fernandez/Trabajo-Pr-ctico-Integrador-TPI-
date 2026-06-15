@@ -258,7 +258,7 @@ def obtener_continentes_unicos(paises):   # Devuelve continentes
     return sorted({p["continente"] for p in paises})
 
 
-CONTINENTES_FIJOS = ["América", "Europa", "Asia", "África", "Oceanía", "Antártida"]
+CONTINENTES_FIJOS = ["America", "Europa", "Asia", "Africa", "Oceania", "Antartida"]
 
 
 def elegir_continente(paises):
